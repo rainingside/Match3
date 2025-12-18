@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://cq5oin8j5isk5"]
+
+[ext_resource type="Script" uid="uid://cxkqv1fi7x5e" path="res://secenes/test.gd" id="1_d60yu"]
+[ext_resource type="Script" uid="uid://bijb25n2c2jmk" path="res://managers/game_manager.gd" id="2_87lbl"]
+[ext_resource type="Script" uid="uid://ip84w2bnq0tp" path="res://managers/block_manager.gd" id="3_87lbl"]
+[ext_resource type="Script" uid="uid://b8fylkouljihq" path="res://components/state_machine/state_machine.gd" id="3_c62vs"]
+[ext_resource type="Script" uid="uid://b0s7e1e3skwr1" path="res://managers/game_states/game_fill_state.gd" id="4_is2cp"]
+[ext_resource type="Script" uid="uid://dqc83xqnm3m5f" path="res://managers/game_states/game_remove_state.gd" id="6_ayi76"]
+
+[node name="Test" type="Node"]
+script = ExtResource("1_d60yu")
+
+[node name="Managers" type="Node" parent="."]
+
+[node name="BlockManager" type="Node" parent="Managers"]
+script = ExtResource("3_87lbl")
+metadata/_custom_type_script = "uid://ip84w2bnq0tp"
+
+[node name="GameManager" type="Node" parent="Managers" node_paths=PackedStringArray("BlockMgr")]
+script = ExtResource("2_87lbl")
+BlockMgr = NodePath("../BlockManager")
+metadata/_custom_type_script = "uid://bijb25n2c2jmk"
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("InitState")]
+script = ExtResource("3_c62vs")
+InitState = NodePath("GameFillState")
+metadata/_custom_type_script = "uid://b8fylkouljihq"
+
+[node name="GameFillState" type="Node" parent="StateMachine" node_paths=PackedStringArray("GameMgr")]
+script = ExtResource("4_is2cp")
+GameMgr = NodePath("../../Managers/GameManager")
+metadata/_custom_type_script = "uid://b0s7e1e3skwr1"
+
+[node name="GameRemoveState" type="Node" parent="StateMachine"]
+script = ExtResource("6_ayi76")
+metadata/_custom_type_script = "uid://dqc83xqnm3m5f"
