@@ -17,3 +17,18 @@ const BlockBgReses:Dictionary = {
 	"Horizontal": preload("uid://cdpmd2y52ekw3"),
 	"Vertical": preload("uid://cu45ase2x6fgx")
 }
+
+var RemoveShapes:Array[IRemoveShape] = [
+	Cross5RemoveShape.new(),
+	Corner5LeftUpRemoveShape.new(),
+	Corner5LeftDownRemoveShape.new(),
+	Corner5RightUpRemoveShape.new(),
+	Corner5RightDownRemoveShape.new(),
+	Horizontal5RemoveShape.new(),
+	Vertical5RemoveShape.new(),
+	Horizontal4RemoveShape.new(),
+	Vertical4RemoveShape.new(),
+	Cross3RemoveShape.new(),
+	HorizontalRemoveShape.new(),
+	VerticalRemoveShape.new()
+]

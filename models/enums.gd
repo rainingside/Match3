@@ -1,6 +1,9 @@
 class_name Enums
 
-
+enum BlockFlags {
+	Normal,
+	Special
+}
 
 enum BlockTypes {
 	Red,

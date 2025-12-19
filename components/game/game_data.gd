@@ -6,6 +6,7 @@ var Column:int = 8
 var Data:Array[Block] = []
 
 var Vector2iNull:Vector2i = Vector2i(-1, -1)
+
 var SwitchIndex2ds:Array[Vector2i] = []
 
 func _init() -> void:
@@ -93,25 +94,20 @@ func p_get_column_empty_target_gposition(column:int, empty_count:int) -> Array[V
 	return gpositions
 
 func p_move_bottom() -> void:
+	var block:Block = null
 	for column in range(Column):
-		var index2ds:Array[Vector2i] = []
-		var empty_index2ds:Array[Vector2i] = []
-		for row in range(Row):
-			if p_get_block(Vector2i(row, column)) == null:
-				empty_index2ds.append(Vector2i(row, column))
-			else:
-				index2ds.append(Vector2i(row, column))
-		if empty_index2ds.size() == Row or empty_index2ds.size() == 0:
-			continue
-		index2ds.reverse()
-		empty_index2ds.reverse()
-		var index:int = 0
-		for index2d in index2ds:
-			var block:Block = p_get_block(index2d)
-			block.Data.TargetGPosition.y = p_get_gposition(empty_index2ds[index]).y
-			p_set(empty_index2ds[index],block)
-			p_set(index2d, null)
-			index += 1
+		for row in range(Row - 1, -1, -1):
+			if p_get_block(Vector2i(row, column)):
+				continue
+			block = null
+			for row1 in range(row - 1, -1, -1):
+				block = p_get_block(Vector2i(row1, column))
+				if block:
+					block.Data.TargetGPosition.y = p_get_gposition(Vector2i(row, column)).y
+					p_set(Vector2i(row, column), block)
+					p_set(Vector2i(row1, column), null)
+					break
+		
 
 func p_is_fill_end() -> bool:
 	for block:Block in Data:
@@ -135,11 +131,6 @@ func p_fill(blocks:Array[Block]) -> void:
 			blocks[index].Data.TargetGPosition = target_gpositons[i]
 			p_set(Vector2i(i, column), blocks[index])
 			index += 1
-
-func p_remove() -> int:
-	var remove_index2ds:Array[Vector2i] = []
-	
-	return 0
 
 func p_switch(target1:Vector2i, target2:Vector2i) -> void:
 	if target1 == Vector2iNull or target2 == Vector2iNull:

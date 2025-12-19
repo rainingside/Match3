@@ -4,7 +4,7 @@ class_name Block
 signal droped(block: Block, drag_direction:Enums.BlockDragDirection)
 
 @export var Data:BlockData
-var Speed:int = 400
+var Speed:int = 200
 
 @onready var m_sprite_2d: Sprite2D = $Sprite2D
 @onready var m_block_drag_component: BlockDragComponent = $BlockDragComponent
@@ -13,7 +13,10 @@ func p_init(data:BlockData) -> void:
 	Data = data
 
 func _ready() -> void:
-	m_sprite_2d.texture = GConstants.BlockBgReses[GHelpers.p_enum_to_string(Enums.BlockTypes, Data.BlockType)]
+	if Data.BlockFlag == Enums.BlockFlags.Normal:
+		m_sprite_2d.texture = GConstants.BlockBgReses[GHelpers.p_enum_to_string(Enums.BlockTypes, Data.BlockType)]
+	else:
+		m_sprite_2d.texture = GConstants.BlockBgReses[GHelpers.p_enum_to_string(Enums.BlockSpecialTypes, Data.BlockSpecialType)]
 	m_block_drag_component.droped.connect(on_droped)
 
 func _physics_process(delta: float) -> void:

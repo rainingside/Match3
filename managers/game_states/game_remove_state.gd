@@ -1,8 +1,14 @@
 extends State
 class_name GameRemoveState
 
+@export var GameMgr:GameManager
+
+var RemoveShapesCount:int = 0
+var RemoveCount:int = 0
+
 func p_enter():
-	pass
+	RemoveShapesCount = GConstants.RemoveShapes.size()
+	RemoveCount = 0
 
 func p_exit():
 	pass
@@ -11,7 +17,15 @@ func p_update(_delta:float):
 	pass
 
 func p_physics_update(_delta:float):
-	pass
+	if RemoveShapesCount > 0:
+		RemoveCount += GameMgr.p_remove_by_shape(GConstants.RemoveShapes[GConstants.RemoveShapes.size() - RemoveShapesCount])
+		RemoveShapesCount -= 1
+		return
+	
+	if RemoveCount > 0:
+		Transitioned.emit(self, GHelpers.p_enum_to_string(Enums.GameState, Enums.GameState.Fill))
+	else:
+		Transitioned.emit(self, GHelpers.p_enum_to_string(Enums.GameState, Enums.GameState.Idle))
 
 func _to_string() -> String:
 	return GHelpers.p_enum_to_string(Enums.GameState, Enums.GameState.Remove)
