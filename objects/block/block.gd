@@ -23,15 +23,25 @@ func _physics_process(delta: float) -> void:
 	var dir:Vector2 = (Data.TargetGPosition - global_position).normalized()
 	if dir == Vector2.ZERO:
 		return
-	var y = global_position.y + Speed * dir.y * delta;
-	if dir.y > 0 and y > Data.TargetGPosition.y:
+	var x = global_position.x + Speed * dir.x * delta
+	var y = global_position.y + Speed * dir.y * delta
+	if dir.x > 0 && x > Data.TargetGPosition.x:
+		x = Data.TargetGPosition.x
+	if dir.x < 0 && x < Data.TargetGPosition.x:
+		x = Data.TargetGPosition.x
+	if dir.y > 0 && y > Data.TargetGPosition.y:
 		y = Data.TargetGPosition.y
-	elif dir.y < 0 and y < Data.TargetGPosition.y:
+	if dir.y < 0 && y < Data.TargetGPosition.y:
 		y = Data.TargetGPosition.y
-	global_position.y = y
+	global_position = Vector2(x, y)
 
 func p_start_drag() -> void:
 	m_block_drag_component.p_start_drag()
 
 func on_droped(drag_direction:Enums.BlockDragDirection) -> void:
 	droped.emit(self, drag_direction)
+
+func p_is_move_end() -> bool:
+	if global_position == Data.TargetGPosition:
+		return true
+	return false

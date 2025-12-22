@@ -27,10 +27,12 @@ enum BlockDragDirection {
 	Right
 }
 
-enum GameState {
+enum GameStates {
 	Fill,
 	Remove,
 	Idle,
 	Switch,
+	SwitchRemoveNormal,
+	SwitchRemoveSpecial,
 	SwitchCancel
 }

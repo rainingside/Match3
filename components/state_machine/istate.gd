@@ -1,8 +1,8 @@
 extends Node
-class_name State
+class_name IState
 
 @warning_ignore("unused_signal")
-signal Transitioned(state:State, new_state_name:String)
+signal Transitioned(state:IState, new_state_name:String)
 
 func p_enter():
 	pass

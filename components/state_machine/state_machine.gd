@@ -1,15 +1,15 @@
 extends Node
 class_name StateMachine
 
-@export var InitState:State
+@export var InitState:IState
 
-var CurrentState:State
-var LastState:State
+var CurrentState:IState
+var LastState:IState
 var States:Dictionary = {}
 
 func _ready() -> void:
 	for child in get_children():
-		if child is State:
+		if child is IState:
 			States[child.to_string()] = child
 			child.Transitioned.connect(on_Transitioned)
 	if InitState:
@@ -24,10 +24,10 @@ func _physics_process(delta: float) -> void:
 	if CurrentState:
 		CurrentState.p_physics_update(delta)
 
-func on_Transitioned(state:State, new_state_name:String) -> void:
+func on_Transitioned(state:IState, new_state_name:String) -> void:
 	if state != CurrentState:
 		return
-	var new_state:State = States.get(new_state_name)
+	var new_state:IState = States.get(new_state_name)
 	if !new_state:
 		return
 	if CurrentState:
@@ -35,3 +35,4 @@ func on_Transitioned(state:State, new_state_name:String) -> void:
 	new_state.p_enter()
 	LastState = state
 	CurrentState = new_state
+	print(CurrentState)

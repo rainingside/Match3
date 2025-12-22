@@ -42,7 +42,7 @@ func p_remove(data:GameData) -> Array[BlockDataGenerator]:
 					if block_match == null:
 						is_all_match = false
 						break
-					if block_target.Data.p_is_match(block_match.Data):
+					if block_target.Data.p_is_match(Enums.BlockFlags.Normal, block_match.Data):
 						matchs_temp.append(data_xy)
 					else:
 						is_all_match = false

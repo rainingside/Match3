@@ -1,6 +1,7 @@
 extends Node
 
 const BlockSize:int = 50
+const Vector2iNull:Vector2i = Vector2i(-1, -1)
 
 const SceneReses:Dictionary = {
 	"Block": preload("uid://x028p8dtlvj0")

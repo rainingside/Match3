@@ -16,13 +16,9 @@ func p_init_noraml(block_type:Enums.BlockTypes) -> void:
 func p_init_special(block_special_type:Enums.BlockSpecialTypes) -> void:
 	BlockFlag = Enums.BlockFlags.Special
 	BlockSpecialType = block_special_type
-	
-func p_is_match(other:BlockData) -> bool:
-	if BlockFlag != other.BlockFlag:
+
+
+func p_is_match(block_flag:Enums.BlockFlags, other:BlockData) -> bool:
+	if BlockFlag != block_flag or other.BlockFlag !=  block_flag:
 		return false
-	match BlockFlag:
-		Enums.BlockFlags.Normal:
-			return BlockType == other.BlockType
-		Enums.BlockFlags.Special:
-			return BlockSpecialType == other.BlockSpecialType
-	return false
+	return BlockType == other.BlockType

@@ -1,5 +1,5 @@
 extends IGameState
-class_name GameRemoveState
+class_name GameSwitchRemoveNormalState
 
 var RemoveShapesCount:int = 0
 var RemoveCount:int = 0
@@ -21,9 +21,10 @@ func p_physics_update(_delta:float):
 		return
 	
 	if RemoveCount > 0:
+		GameMgr.p_switch_success()
 		Transitioned.emit(self, GHelpers.p_enum_to_string(Enums.GameStates, Enums.GameStates.Fill))
 	else:
-		Transitioned.emit(self, GHelpers.p_enum_to_string(Enums.GameStates, Enums.GameStates.Idle))
+		Transitioned.emit(self, GHelpers.p_enum_to_string(Enums.GameStates, Enums.GameStates.SwitchCancel))
 
 func _to_string() -> String:
-	return GHelpers.p_enum_to_string(Enums.GameStates, Enums.GameStates.Remove)
+	return GHelpers.p_enum_to_string(Enums.GameStates, Enums.GameStates.SwitchRemoveNormal)
