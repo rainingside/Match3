@@ -42,5 +42,7 @@ enum RemoveSpecialTypes {
 	Bomb,
 	Horizontal,
 	Vertical,
-	Stars
+	Stars,
+	StartOther,
+	Others
 }

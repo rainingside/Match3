@@ -26,7 +26,13 @@ func p_get_remove_special(special_location:RemoveSpecialLocationData) -> IRemove
 	elif special_types.all(func(p):
 		return p == Enums.RemoveSpecialTypes.Star):
 		remove_special_type = Enums.RemoveSpecialTypes.Stars
-		
+	elif special_types.any(func(p):
+		return p == Enums.RemoveSpecialTypes.Star) and special_types.any(func(p):
+		return p != Enums.RemoveSpecialTypes.Star):
+		remove_special_type = Enums.RemoveSpecialTypes.StartOther
+	else:
+		remove_special_type = Enums.RemoveSpecialTypes.Others
+	
 	if remove_special_type == -1:
 		return null
 	if m_remove_specials.has(remove_special_type):
@@ -45,6 +51,10 @@ func p_get_remove_special(special_location:RemoveSpecialLocationData) -> IRemove
 			
 		Enums.RemoveSpecialTypes.Stars:
 			iremove_special = StarsRemoveSpecial.new()
+		Enums.RemoveSpecialTypes.StartOther:
+			iremove_special = StarOtherRemoveSpecial.new()
+		Enums.RemoveSpecialTypes.Others:
+			iremove_special = OthersRemoveSpecial.new()
 	
 	m_remove_specials[remove_special_type] = iremove_special
 	return iremove_special

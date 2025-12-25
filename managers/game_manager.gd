@@ -93,7 +93,6 @@ func p_remove_special(special_location:RemoveSpecialLocationData) -> RemoveSpeci
 		return remove_special_data
 	
 	remove_special_data = iremove_special.p_remove_special(special_location, GameDatas)
-	print(iremove_special.get_class())
 	
 	for rdata:RemoveSpecialLocationData in remove_special_data.ThisRemoveLocations:
 		var block:Block = GameDatas.p_get_block(rdata.TargetLocation.Index2d)
