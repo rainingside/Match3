@@ -30,6 +30,10 @@ var RemoveShapes:Array[IRemoveShape] = [
 	Horizontal4RemoveShape.new(),
 	Vertical4RemoveShape.new(),
 	Cross3RemoveShape.new(),
+	Corner3LeftDownRemoveShape.new(),
+	Corner3LeftUpRemoveShape.new(),
+	Corner3RightUpRemoveShape.new(),
+	Corner3RightDownRemoveShape.new(),
 	HorizontalRemoveShape.new(),
 	VerticalRemoveShape.new()
 ]

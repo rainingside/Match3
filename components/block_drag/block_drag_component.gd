@@ -7,30 +7,23 @@ signal droped(drag_direction:Enums.BlockDragDirection)
 
 var IsDraging:bool = false
 
-var m_drag_timer:Timer
-
-func _ready() -> void:
-	m_drag_timer = Timer.new()
-	m_drag_timer.one_shot = true
-	m_drag_timer.autostart = false
-	m_drag_timer.wait_time = 0.5
-	add_child(m_drag_timer)
-	m_drag_timer.timeout.connect(on_drag_timer_timeout)
-
 func p_start_drag() -> void:
 	if IsDraging:
 		return
 	IsDraging = true
-	m_drag_timer.start()
 
-func end_drag() -> void:
-	IsDraging = false
-	
-func on_drag_timer_timeout() -> void:
-	var offset = (Target.get_global_mouse_position() - Target.global_position).normalized()
+func p_end_drag() -> bool:
+	if !IsDraging:
+		return false
+	var offset = Target.get_global_mouse_position() - Target.global_position
 	if offset == Vector2.ZERO:
-		end_drag()
-		return
+		IsDraging = false
+		return false
+		
+	var offset_max:float = max(abs(offset.x), abs(offset.y))
+	if offset_max < 10:
+		IsDraging = false
+		return false
 	
 	var dir:Enums.BlockDragDirection
 	if offset.x > 0 and abs(offset.x) >= abs(offset.y):
@@ -41,6 +34,6 @@ func on_drag_timer_timeout() -> void:
 		dir = Enums.BlockDragDirection.Down
 	else:
 		dir = Enums.BlockDragDirection.Up
-	end_drag()
 	droped.emit(dir)
-	
+	IsDraging = false
+	return true

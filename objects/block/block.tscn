@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://x028p8dtlvj0"]
 
 [ext_resource type="Script" uid="uid://mv8khqi6scix" path="res://objects/block/block.gd" id="1_db0ce"]
-[ext_resource type="Script" uid="uid://bd1xxmay6ebj8" path="res://components/block/block_data.gd" id="2_h0uxo"]
+[ext_resource type="Script" uid="uid://bd1xxmay6ebj8" path="res://components/block/iblock_data.gd" id="2_h0uxo"]
 [ext_resource type="Script" uid="uid://535agdraouc2" path="res://components/block_drag/block_drag_component.gd" id="3_c42pi"]
 
 [sub_resource type="Resource" id="Resource_c42pi"]

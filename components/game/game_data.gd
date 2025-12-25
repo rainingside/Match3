@@ -5,6 +5,8 @@ var Column:int = 8
 
 var Data:Array[Block] = []
 
+var DragBlock:Block
+
 var SwitchIndex2ds:Array[Vector2i] = []
 var SwitchCancelIndex2ds:Array[Vector2i] = []
 
@@ -47,6 +49,16 @@ func p_get_block_by_gpositon(gposition:Vector2) -> Block:
 
 func p_set(index2d:Vector2i, block:Block) -> void:
 	Data[index2d.x * Column + index2d.y] = block
+
+func p_get_random_normal_block() -> Block:
+	var block:Block
+	for row in range(Row):
+		for column in range(Column):
+			block = p_get_block(Vector2i(row, column))
+			if block and block.Data.BlockFlag == Enums.BlockFlags.Normal:
+				return block
+	return null
+	
 
 func p_get_left_index2d(index2d:Vector2i) -> Vector2i:
 	if index2d == GConstants.Vector2iNull:
@@ -181,9 +193,15 @@ func p_start_drag(mouse_gpostion:Vector2) -> bool:
 	var block:Block = p_get_block_by_gpositon(mouse_gpostion)
 	if block == null:
 		return false
-	block.p_start_drag()
+	DragBlock = block
+	DragBlock.p_start_drag()
 	return true
 
+func p_end_drag() -> bool:
+	if DragBlock == null:
+		return false
+	return DragBlock.p_end_drag()
+	
 func p_is_drag_ok() -> bool:
 	if SwitchIndex2ds.size() == 2:
 		return true

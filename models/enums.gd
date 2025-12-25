@@ -36,3 +36,11 @@ enum GameStates {
 	SwitchRemoveSpecial,
 	SwitchCancel
 }
+
+enum RemoveSpecialTypes {
+	Star,
+	Bomb,
+	Horizontal,
+	Vertical,
+	Stars
+}

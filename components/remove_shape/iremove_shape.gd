@@ -7,8 +7,8 @@ var BlockSpecialType:Enums.BlockSpecialTypes = -1
 
 var Vector2iNull:Vector2i = Vector2i(-1, -1)
 
-func p_remove(data:GameData) -> Array[BlockDataGenerator]:
-	var block_data_generators: Array[BlockDataGenerator] = []
+func p_remove(data:GameData) -> Array[RemoveShapeData]:
+	var remove_shape_datas: Array[RemoveShapeData] = []
 	
 	var matchs:Array[Vector2i] = []
 	var block_target:Block = null
@@ -32,7 +32,7 @@ func p_remove(data:GameData) -> Array[BlockDataGenerator]:
 						break
 					if block_target == null:
 						block_target = data.p_get_block(data_xy)
-						if block_target:
+						if block_target and block_target.Data.BlockFlag == Enums.BlockFlags.Normal:
 							matchs_temp.append(data_xy)
 							continue
 						else:
@@ -42,7 +42,7 @@ func p_remove(data:GameData) -> Array[BlockDataGenerator]:
 					if block_match == null:
 						is_all_match = false
 						break
-					if block_target.Data.p_is_match(Enums.BlockFlags.Normal, block_match.Data):
+					if block_target.Data.p_is_match_type(block_match.Data):
 						matchs_temp.append(data_xy)
 					else:
 						is_all_match = false
@@ -54,12 +54,12 @@ func p_remove(data:GameData) -> Array[BlockDataGenerator]:
 				matchs_temp.clear()
 				continue
 			
-			var generator = BlockDataGenerator.new()
-			generator.Index2d = Vector2i(row + CenterIndex2d.x, column + CenterIndex2d.y)
-			generator.BlockSpecialType = BlockSpecialType
-			generator.RemoveIndex2ds = matchs_temp
-			block_data_generators.append(generator)
+			var remove_data = RemoveShapeData.new()
+			remove_data.SpecialIndex2d = Vector2i(row + CenterIndex2d.x, column + CenterIndex2d.y)
+			remove_data.SpecialType = BlockSpecialType
+			remove_data.RemoveIndex2ds = matchs_temp
+			remove_shape_datas.append(remove_data)
 			
 			matchs.append_array(matchs_temp)
 			
-	return block_data_generators
+	return remove_shape_datas
