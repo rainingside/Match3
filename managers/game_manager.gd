@@ -35,15 +35,15 @@ func p_remove_by_shape(remove_shape:IRemoveShape) -> int:
 			
 		if remove_data.SpecialType >= 0:
 			var special_block = BlockMgr.p_get_special_block(remove_data.SpecialType)
-			special_block.global_position = GameDatas.p_get_gposition(remove_data.SpecialIndex2d)
-			special_block.Data.TargetGPosition = special_block.global_position
+			special_block.position = GameDatas.p_get_position(remove_data.SpecialIndex2d)
+			special_block.Data.TargetPosition = special_block.position
 			GameDatas.p_set(remove_data.SpecialIndex2d, special_block)
 			add_block(special_block)
 	return remove_count
 
 
 func p_start_drag() -> bool:
-	return GameDatas.p_start_drag(CanvaNode.get_global_mouse_position())
+	return GameDatas.p_start_drag(CanvaNode.get_local_mouse_position())
 
 func p_end_drag() -> bool:
 	return GameDatas.p_end_drag()
@@ -118,7 +118,7 @@ func p_switch_cancel_end():
 
 
 func add_block(block:Block) -> void:
-	add_child(block)
+	CanvaNode.add_child(block)
 	block.droped.connect(on_block_droped, ConnectFlags.CONNECT_DEFERRED)
 	
 func add_blocks(blocks:Array[Block]) -> void:

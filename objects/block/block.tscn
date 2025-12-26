@@ -6,7 +6,6 @@
 
 [sub_resource type="Resource" id="Resource_c42pi"]
 script = ExtResource("2_h0uxo")
-TargetGPosition = Vector2(0, 75)
 metadata/_custom_type_script = "uid://bd1xxmay6ebj8"
 
 [node name="Block" type="Node2D"]

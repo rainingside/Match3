@@ -1,6 +1,6 @@
 class_name GameData
 
-var Row:int = 12
+var Row:int = 10
 var Column:int = 8
 
 var Data:Array[Block] = []
@@ -27,22 +27,25 @@ func p_get_index2d(block:Block) -> Vector2i:
 	var y:int = i - x * Column
 	return Vector2i(x, y)
 
-func p_get_index2d_by_gposition(gposition:Vector2) -> Vector2i:
-	if gposition.x <= 0 || gposition.x >= Column * GConstants.BlockSize:
+func p_get_index2d_by_position(position:Vector2) -> Vector2i:
+	if position.x <= 0 || position.x >= Column * GConstants.BlockSize:
 		return GConstants.Vector2iNull
-	if gposition.y <= 0 || gposition.y >= Row * GConstants.BlockSize:
+	if position.y <= 0 || position.y >= Row * GConstants.BlockSize:
 		return GConstants.Vector2iNull
 	@warning_ignore("narrowing_conversion")
-	var targetx:int = gposition.y / GConstants.BlockSize
+	var targetx:int = position.y / GConstants.BlockSize
 	@warning_ignore("narrowing_conversion")
-	var targety:int = gposition.x / GConstants.BlockSize
+	var targety:int = position.x / GConstants.BlockSize
 	return Vector2i(targetx, targety)
 
 func p_get_block(index2d:Vector2i) -> Block:
+	var index = index2d.x * Column + index2d.y
+	if index >= Row * Column:
+		return null
 	return Data[index2d.x * Column + index2d.y]
 
-func p_get_block_by_gpositon(gposition:Vector2) -> Block:
-	var target_index2d = p_get_index2d_by_gposition(gposition)
+func p_get_block_by_positon(position:Vector2) -> Block:
+	var target_index2d = p_get_index2d_by_position(position)
 	if target_index2d == GConstants.Vector2iNull:
 		return null
 	return p_get_block(target_index2d)
@@ -67,8 +70,8 @@ func p_get_left_index2d(index2d:Vector2i) -> Vector2i:
 		return GConstants.Vector2iNull
 	return Vector2i(index2d.x, index2d.y - 1)
 
-func p_get_left_index2d_by_gposition(gposition:Vector2) -> Vector2i:
-	return p_get_left_index2d(p_get_index2d_by_gposition(gposition))
+func p_get_left_index2d_by_position(position:Vector2) -> Vector2i:
+	return p_get_left_index2d(p_get_index2d_by_position(position))
 
 func p_get_right_index2d(index2d:Vector2i) -> Vector2i:
 	if index2d == GConstants.Vector2iNull:
@@ -77,8 +80,8 @@ func p_get_right_index2d(index2d:Vector2i) -> Vector2i:
 		return GConstants.Vector2iNull
 	return Vector2i(index2d.x, index2d.y + 1)
 
-func p_get_right_index2d_by_gposition(gposition:Vector2) -> Vector2i:
-	return p_get_right_index2d(p_get_index2d_by_gposition(gposition))
+func p_get_right_index2d_by_position(position:Vector2) -> Vector2i:
+	return p_get_right_index2d(p_get_index2d_by_position(position))
 
 func p_get_up_index2d(index2d:Vector2i) -> Vector2i:
 	if index2d == GConstants.Vector2iNull:
@@ -87,8 +90,8 @@ func p_get_up_index2d(index2d:Vector2i) -> Vector2i:
 		return GConstants.Vector2iNull
 	return Vector2i(index2d.x - 1, index2d.y)
 
-func p_get_up_index2d_by_gposition(gposition:Vector2) -> Vector2i:
-	return p_get_up_index2d(p_get_index2d_by_gposition(gposition))
+func p_get_up_index2d_by_position(position:Vector2) -> Vector2i:
+	return p_get_up_index2d(p_get_index2d_by_position(position))
 
 func p_get_down_index2d(index2d:Vector2i) -> Vector2i:
 	if index2d == GConstants.Vector2iNull:
@@ -97,8 +100,8 @@ func p_get_down_index2d(index2d:Vector2i) -> Vector2i:
 		return GConstants.Vector2iNull
 	return Vector2i(index2d.x + 1, index2d.y)
 
-func p_get_down_index2d_by_gposition(gposition:Vector2) -> Vector2i:
-	return p_get_down_index2d(p_get_index2d_by_gposition(gposition))
+func p_get_down_index2d_by_position(position:Vector2) -> Vector2i:
+	return p_get_down_index2d(p_get_index2d_by_position(position))
 
 func p_get_direciton_index2d(index2d:Vector2i, direction:Enums.BlockDragDirection) -> Vector2i:
 	var target_index2d:Vector2i = GConstants.Vector2iNull
@@ -113,11 +116,11 @@ func p_get_direciton_index2d(index2d:Vector2i, direction:Enums.BlockDragDirectio
 			target_index2d = p_get_down_index2d(index2d)
 	return target_index2d
 
-func p_get_direciton_index2d_by_gposition(gposition:Vector2, direction:Enums.BlockDragDirection) -> Vector2i:
-	var index2d:Vector2i = p_get_index2d_by_gposition(gposition)
+func p_get_direciton_index2d_by_position(position:Vector2, direction:Enums.BlockDragDirection) -> Vector2i:
+	var index2d:Vector2i = p_get_index2d_by_position(position)
 	return p_get_direciton_index2d(index2d, direction)
 
-func p_get_gposition(index2d:Vector2i) -> Vector2:
+func p_get_position(index2d:Vector2i) -> Vector2:
 	@warning_ignore("integer_division")
 	return Vector2(GConstants.BlockSize / 2 + GConstants.BlockSize * index2d.y, GConstants.BlockSize / 2 + GConstants.BlockSize * index2d.x)
 
@@ -135,19 +138,19 @@ func p_get_column_empty_count(column:int) -> int:
 			empty_count += 1
 	return empty_count
 	
-func p_get_column_empty_init_gposition(column:int, empty_count:int) -> Array[Vector2]:
-	var gpositions:Array[Vector2] = []
+func p_get_column_empty_init_position(column:int, empty_count:int) -> Array[Vector2]:
+	var positions:Array[Vector2] = []
 	for index in range(empty_count):
 		@warning_ignore("integer_division")
-		gpositions.append(Vector2(GConstants.BlockSize / 2 + column * GConstants.BlockSize, -GConstants.BlockSize / 2 - (empty_count - index - 1) * GConstants.BlockSize))
-	return gpositions
+		positions.append(Vector2(GConstants.BlockSize / 2 + column * GConstants.BlockSize, -GConstants.BlockSize / 2 - (empty_count - index - 1) * GConstants.BlockSize))
+	return positions
 
-func p_get_column_empty_target_gposition(column:int, empty_count:int) -> Array[Vector2]:
-	var gpositions:Array[Vector2] = []
+func p_get_column_empty_target_position(column:int, empty_count:int) -> Array[Vector2]:
+	var positions:Array[Vector2] = []
 	for index in range(empty_count):
 		@warning_ignore("integer_division")
-		gpositions.append(Vector2( GConstants.BlockSize / 2 + column * GConstants.BlockSize, GConstants.BlockSize / 2 + index * GConstants.BlockSize))
-	return gpositions
+		positions.append(Vector2( GConstants.BlockSize / 2 + column * GConstants.BlockSize, GConstants.BlockSize / 2 + index * GConstants.BlockSize))
+	return positions
 
 func p_move_bottom() -> void:
 	var block:Block = null
@@ -159,7 +162,7 @@ func p_move_bottom() -> void:
 			for row1 in range(row - 1, -1, -1):
 				block = p_get_block(Vector2i(row1, column))
 				if block:
-					block.Data.TargetGPosition.y = p_get_gposition(Vector2i(row, column)).y
+					block.Data.TargetPosition.y = p_get_position(Vector2i(row, column)).y
 					p_set(Vector2i(row, column), block)
 					p_set(Vector2i(row1, column), null)
 					break
@@ -180,17 +183,17 @@ func p_fill(blocks:Array[Block]) -> void:
 		var empty_count:int = p_get_column_empty_count(column)
 		if empty_count == 0:
 			continue
-		var init_gpositions:Array[Vector2] = p_get_column_empty_init_gposition(column, empty_count)
-		var target_gpositons:Array[Vector2] = p_get_column_empty_target_gposition(column, empty_count)
+		var init_positions:Array[Vector2] = p_get_column_empty_init_position(column, empty_count)
+		var target_positons:Array[Vector2] = p_get_column_empty_target_position(column, empty_count)
 		for i in empty_count:
-			blocks[index].global_position = init_gpositions[i]
-			blocks[index].Data.TargetGPosition = target_gpositons[i]
+			blocks[index].position = init_positions[i]
+			blocks[index].Data.TargetPosition = target_positons[i]
 			p_set(Vector2i(i, column), blocks[index])
 			index += 1
 
 
 func p_start_drag(mouse_gpostion:Vector2) -> bool:
-	var block:Block = p_get_block_by_gpositon(mouse_gpostion)
+	var block:Block = p_get_block_by_positon(mouse_gpostion)
 	if block == null:
 		return false
 	DragBlock = block
@@ -216,8 +219,8 @@ func p_switch(target1:Vector2i, target2:Vector2i) -> void:
 	var block2 = p_get_block(target2)
 	if block2 == null:
 		return
-	block1.Data.TargetGPosition = block2.global_position
-	block2.Data.TargetGPosition = block1.global_position
+	block1.Data.TargetPosition = block2.position
+	block2.Data.TargetPosition = block1.position
 	p_set(target1, block2)
 	p_set(target2, block1)
 	SwitchIndex2ds.append(target1)
@@ -257,8 +260,8 @@ func p_switch_success() -> void:
 func p_switch_cancel() -> void:
 	var block1 = p_get_block(SwitchIndex2ds[0])
 	var block2 = p_get_block(SwitchIndex2ds[1])
-	block1.Data.TargetGPosition = block2.global_position
-	block2.Data.TargetGPosition = block1.global_position
+	block1.Data.TargetPosition = block2.position
+	block2.Data.TargetPosition = block1.position
 	p_set(SwitchIndex2ds[0], block2)
 	p_set(SwitchIndex2ds[1], block1)
 	SwitchCancelIndex2ds.clear()

@@ -9,4 +9,4 @@ func _init() -> void:
 					  	1]
 	p_init_shape_data()
 	CenterIndex2d = Vector2i(1, 0)
-	BlockSpecialType = Enums.BlockSpecialTypes.Vertical
+	BlockSpecialType = Enums.BlockSpecialTypes.Horizontal

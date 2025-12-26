@@ -1,7 +1,21 @@
 extends IRemoveSpecial
 class_name BombRemoveSpecial
 
-var RemoveRange:int = 3
+var ShapeData2d:Array2D
+var ShapeData:Array[Vector2i]
+var CenterIndex2d = Vector2i(2, 2)
+
+func _init() -> void:
+	ShapeData2d = Array2D.new(5, 5)
+	ShapeData2d.Data = [0, 0, 1, 0, 0,
+						0, 1, 1, 1, 0,
+						1, 1, 1, 1, 1,
+						0, 1, 1, 1, 0,
+						0, 0, 1, 0, 0]
+	for row in ShapeData2d.Row:
+			for column in ShapeData2d.Column:
+				if ShapeData2d.p_get(row, column) == 1:
+					ShapeData.append(Vector2i(row, column) - CenterIndex2d)
 
 func p_remove_special(special_location:RemoveSpecialLocationData, data:GameData) -> RemoveSpecialData:
 	var remove_data:RemoveSpecialData = RemoveSpecialData.new()
@@ -16,13 +30,8 @@ func p_remove_special(special_location:RemoveSpecialLocationData, data:GameData)
 			special_location.TargetLocation, null))
 	var except_index2ds:Array[Vector2i] = [target_index2d]
 	
-	var min_row:int = clampi(target_index2d.x - RemoveRange + 1, 0, data.Row - 1)
-	var max_row:int = clampi(target_index2d.x + RemoveRange - 1, 0, data.Row - 1)
-	var min_column:int = clampi(target_index2d.y - RemoveRange + 1, 0, data.Column -1)
-	var max_column:int = clampi(target_index2d.y + RemoveRange - 1, 0, data.Column -1)
-	for row in range(min_row, max_row + 1, 1):
-		for column in range(min_column, max_column + 1, 1):
-			var rindex2d = Vector2i(row, column)
+	for index2d:Vector2i in ShapeData:
+			var rindex2d = target_index2d + index2d
 			p_append_remove_block(remove_data, rindex2d, except_index2ds, data)
 	
 	return remove_data
