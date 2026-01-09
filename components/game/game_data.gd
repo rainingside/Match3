@@ -1,7 +1,8 @@
+extends Resource
 class_name GameData
 
-var Row:int = 14
-var Column:int = 10
+var Row:int
+var Column:int
 
 var Data:Array[Block] = []
 
@@ -10,7 +11,9 @@ var DragBlock:Block
 var SwitchIndex2ds:Array[Vector2i] = []
 var SwitchCancelIndex2ds:Array[Vector2i] = []
 
-func _init() -> void:
+func _init(row:int, column:int) -> void:
+	Row = row
+	Column = column
 	Data.resize(Row * Column)
 	for i in range(Row * Column):
 		Data[i] = null

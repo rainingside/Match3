@@ -3,7 +3,7 @@ class_name GameManager
 
 @export var CanvaNode:Node2D
 
-var GameDatas:GameData = GameData.new()
+var GameDatas:GameData = GameData.new(8, 8)
 var BlockScene:PackedScene = GConstants.SceneReses.Block
 
 func p_fill() -> void:

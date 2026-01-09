@@ -17,7 +17,9 @@ enum BlockSpecialTypes {
 	Star,
 	Bomb,
 	Horizontal,
-	Vertical
+	Vertical,
+	ObliqueLeft,
+	ObliqueRight
 }
 
 enum BlockDragDirection {
@@ -42,6 +44,8 @@ enum RemoveSpecialTypes {
 	Bomb,
 	Horizontal,
 	Vertical,
+	ObliqueLeft,
+	ObliqueRight,
 	Stars,
 	StartOther,
 	Others
