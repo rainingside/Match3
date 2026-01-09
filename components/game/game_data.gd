@@ -1,7 +1,7 @@
 class_name GameData
 
-var Row:int = 10
-var Column:int = 8
+var Row:int = 14
+var Column:int = 10
 
 var Data:Array[Block] = []
 
@@ -39,13 +39,13 @@ func p_get_index2d_by_position(position:Vector2) -> Vector2i:
 	return Vector2i(targetx, targety)
 
 func p_get_block(index2d:Vector2i) -> Block:
-	var index = index2d.x * Column + index2d.y
+	var index:int = index2d.x * Column + index2d.y
 	if index >= Row * Column:
 		return null
 	return Data[index2d.x * Column + index2d.y]
 
 func p_get_block_by_positon(position:Vector2) -> Block:
-	var target_index2d = p_get_index2d_by_position(position)
+	var target_index2d:Vector2i = p_get_index2d_by_position(position)
 	if target_index2d == GConstants.Vector2iNull:
 		return null
 	return p_get_block(target_index2d)
@@ -213,10 +213,10 @@ func p_is_drag_ok() -> bool:
 func p_switch(target1:Vector2i, target2:Vector2i) -> void:
 	if target1 == GConstants.Vector2iNull or target2 == GConstants.Vector2iNull:
 		return
-	var block1 = p_get_block(target1)
+	var block1:Block = p_get_block(target1)
 	if block1 == null:
 		return
-	var block2 = p_get_block(target2)
+	var block2:Block = p_get_block(target2)
 	if block2 == null:
 		return
 	block1.Data.TargetPosition = block2.position
@@ -227,10 +227,10 @@ func p_switch(target1:Vector2i, target2:Vector2i) -> void:
 	SwitchIndex2ds.append(target2)
 
 func p_switch_by_block(block:Block, direction:Enums.BlockDragDirection) -> void:
-	var index2d = p_get_index2d(block)
+	var index2d:Vector2i = p_get_index2d(block)
 	if index2d == GConstants.Vector2iNull:
 		return
-	var target_index2d = p_get_direciton_index2d(index2d, direction)
+	var target_index2d:Vector2i = p_get_direciton_index2d(index2d, direction)
 	if target_index2d == GConstants.Vector2iNull:
 		return
 	p_switch(index2d, target_index2d)
@@ -258,8 +258,8 @@ func p_switch_success() -> void:
 	SwitchCancelIndex2ds.clear()
 
 func p_switch_cancel() -> void:
-	var block1 = p_get_block(SwitchIndex2ds[0])
-	var block2 = p_get_block(SwitchIndex2ds[1])
+	var block1:Block = p_get_block(SwitchIndex2ds[0])
+	var block2:Block = p_get_block(SwitchIndex2ds[1])
 	block1.Data.TargetPosition = block2.position
 	block2.Data.TargetPosition = block1.position
 	p_set(SwitchIndex2ds[0], block2)
@@ -277,5 +277,5 @@ func p_is_switch_cancel_end() -> bool:
 			break
 	return is_switch_cancel_end
 
-func p_switch_cancel_end():
+func p_switch_cancel_end() -> void:
 	SwitchCancelIndex2ds.clear()

@@ -15,7 +15,7 @@ func p_remove_special(special_location:RemoveSpecialLocationData, data:GameData)
 	var except_index2ds:Array[Vector2i] = [target_index2d]
 	
 	for row in range(data.Row):
-		var rindex2d = Vector2i(row, target_index2d.y)
+		var rindex2d:Vector2i = Vector2i(row, target_index2d.y)
 		p_append_remove_block(remove_data, rindex2d, except_index2ds, data)
 	
 	return remove_data

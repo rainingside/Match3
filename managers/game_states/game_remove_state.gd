@@ -4,17 +4,17 @@ class_name GameRemoveState
 var RemoveShapesCount:int = 0
 var RemoveCount:int = 0
 
-func p_enter():
+func p_enter() -> void:
 	RemoveShapesCount = GConstants.RemoveShapes.size()
 	RemoveCount = 0
 
-func p_exit():
+func p_exit() -> void:
 	pass
 
-func p_update(_delta:float):
+func p_update(_delta:float) -> void:
 	pass
 
-func p_physics_update(_delta:float):
+func p_physics_update(_delta:float) -> void:
 	if RemoveShapesCount > 0:
 		RemoveCount += GameMgr.p_remove_by_shape(GConstants.RemoveShapes[GConstants.RemoveShapes.size() - RemoveShapesCount])
 		RemoveShapesCount -= 1

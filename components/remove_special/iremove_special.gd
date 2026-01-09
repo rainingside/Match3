@@ -6,7 +6,7 @@ func p_remove_special(_special_location:RemoveSpecialLocationData, _data:GameDat
 func p_append_remove_block(remove_data:RemoveSpecialData, index2d:Vector2i, except_index2ds:Array[Vector2i], data:GameData) -> void:
 	if except_index2ds.find(index2d) >= 0:
 		return
-	var block = data.p_get_block(index2d)
+	var block:Block = data.p_get_block(index2d)
 	if block:
 		var location_data:RemoveSpecialLocationData = RemoveSpecialLocationData.new().p_init(
 			BlockLocation.new().p_init(index2d,

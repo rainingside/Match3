@@ -18,7 +18,7 @@ func p_remove(data:GameData) -> Array[RemoveShapeData]:
 	
 	for row in range(data.Row - ShapeData2d.Row, -1, -1):
 		for column in range(data.Column - ShapeData2d.Column + 1):
-			var is_all_match = true
+			var is_all_match:bool = true
 			block_target = null
 			block_match = null
 			var matchs_temp:Array[Vector2i] = []
@@ -52,7 +52,7 @@ func p_remove(data:GameData) -> Array[RemoveShapeData]:
 				matchs_temp.clear()
 				continue
 			
-			var remove_data = RemoveShapeData.new()
+			var remove_data:RemoveShapeData = RemoveShapeData.new()
 			remove_data.SpecialIndex2d = Vector2i(row + CenterIndex2d.x, column + CenterIndex2d.y)
 			remove_data.SpecialType = BlockSpecialType
 			remove_data.RemoveIndex2ds = matchs_temp

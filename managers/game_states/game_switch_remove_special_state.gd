@@ -5,19 +5,19 @@ class_name GameSwitchRemoveSpecialState
 var NextRemoveDatas:Array[RemoveSpecialLocationData] = []
 var RemoveCount:int = 0
 
-func p_enter():
+func p_enter() -> void:
 	RemoveCount = 0
 	var remove_data:RemoveSpecialData = GameMgr.p_get_switch_remove_special_data()
 	if remove_data:
 		NextRemoveDatas.append_array(remove_data.NextRemoveLocations)
 	
-func p_exit():
+func p_exit() -> void:
 	RemoveCount = 0
 
-func p_update(_delta:float):
+func p_update(_delta:float) -> void:
 	pass
 
-func p_physics_update(_delta:float):
+func p_physics_update(_delta:float) -> void:
 	if NextRemoveDatas.size() == 0:
 		if RemoveCount > 0:
 			GameMgr.p_switch_success()

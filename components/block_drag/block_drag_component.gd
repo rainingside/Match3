@@ -15,7 +15,7 @@ func p_start_drag() -> void:
 func p_end_drag() -> bool:
 	if !IsDraging:
 		return false
-	var offset = Target.get_global_mouse_position() - Target.global_position
+	var offset:Vector2 = Target.get_global_mouse_position() - Target.global_position
 	if offset == Vector2.ZERO:
 		IsDraging = false
 		return false

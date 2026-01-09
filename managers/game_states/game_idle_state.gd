@@ -3,16 +3,16 @@ class_name GameIdleState
 
 var IsDraging:bool
 
-func p_enter():
+func p_enter() -> void:
 	IsDraging = false
 
-func p_exit():
+func p_exit() -> void:
 	IsDraging = false
 
-func p_update(_delta:float):
+func p_update(_delta:float) -> void:
 	pass
 
-func p_physics_update(_delta:float):
+func p_physics_update(_delta:float) -> void:
 	if IsDraging:
 		if GameMgr.p_is_drag_ok():
 			Transitioned.emit(self, GHelpers.p_enum_to_string(Enums.GameStates, Enums.GameStates.Switch))

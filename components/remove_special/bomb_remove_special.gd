@@ -3,7 +3,7 @@ class_name BombRemoveSpecial
 
 var ShapeData2d:Array2D
 var ShapeData:Array[Vector2i]
-var CenterIndex2d = Vector2i(2, 2)
+var CenterIndex2d:Vector2i = Vector2i(2, 2)
 
 func _init() -> void:
 	ShapeData2d = Array2D.new(5, 5)
@@ -31,7 +31,7 @@ func p_remove_special(special_location:RemoveSpecialLocationData, data:GameData)
 	var except_index2ds:Array[Vector2i] = [target_index2d]
 	
 	for index2d:Vector2i in ShapeData:
-			var rindex2d = target_index2d + index2d
+			var rindex2d:Vector2i = target_index2d + index2d
 			p_append_remove_block(remove_data, rindex2d, except_index2ds, data)
 	
 	return remove_data

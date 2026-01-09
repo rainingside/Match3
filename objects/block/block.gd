@@ -34,8 +34,8 @@ func _physics_process(delta: float) -> void:
 		CurrentSpeed = CurrentSpeed + acceleration * delta
 		CurrentSpeed = clampf(CurrentSpeed, Speed, MaxSpeed)
 	
-	var x = position.x + CurrentSpeed * dir.x * delta
-	var y = position.y + CurrentSpeed * dir.y * delta
+	var x:float = position.x + CurrentSpeed * dir.x * delta
+	var y:float = position.y + CurrentSpeed * dir.y * delta
 	if dir.x > 0 && x > Data.TargetPosition.x:
 		x = Data.TargetPosition.x
 	if dir.x < 0 && x < Data.TargetPosition.x:
